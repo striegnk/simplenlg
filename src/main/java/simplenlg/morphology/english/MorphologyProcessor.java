@@ -188,9 +188,13 @@ public class MorphologyProcessor extends NLGModule {
 					//pass the discourse function and appositive features -- important for orth processor
 					currentElement.setFeature(Feature.APPOSITIVE, eachElement.getFeature(Feature.APPOSITIVE));
 					Object function = eachElement.getFeature(InternalFeature.DISCOURSE_FUNCTION);
-
 					if(function != null) {
 						currentElement.setFeature(InternalFeature.DISCOURSE_FUNCTION, function);
+					}
+
+					Object clauseStatus = eachElement.getFeature(InternalFeature.CLAUSE_STATUS);
+					if(clauseStatus != null) {
+						currentElement.setFeature(InternalFeature.CLAUSE_STATUS, clauseStatus);
 					}
 
 					if(prevElement != null && prevElement instanceof StringElement

@@ -171,6 +171,10 @@ abstract class PhraseHelper {
 			if (currentElement != null) {
 				currentElement.setFeature(InternalFeature.DISCOURSE_FUNCTION,
 						function);
+				if (eachElement.getCategory() == PhraseCategory.CLAUSE) {
+					currentElement.setFeature(InternalFeature.CLAUSE_STATUS,
+							eachElement.getFeature(InternalFeature.CLAUSE_STATUS));
+				}
 
 				if (eachElement.getFeatureAsBoolean(Feature.APPOSITIVE).booleanValue()) {
 					currentElement.setFeature(Feature.APPOSITIVE, true);

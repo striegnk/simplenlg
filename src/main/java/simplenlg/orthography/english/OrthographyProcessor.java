@@ -21,6 +21,7 @@ package simplenlg.orthography.english;
 import java.util.ArrayList;
 import java.util.List;
 
+import simplenlg.features.ClauseStatus;
 import simplenlg.features.DiscourseFunction;
 import simplenlg.features.Feature;
 import simplenlg.features.InternalFeature;
@@ -394,7 +395,16 @@ public class OrthographyProcessor extends NLGModule {
 
 			// check that the child realisation is non-empty
 			if(childRealisation != null && childRealisation.length() > 0 && !childRealisation.matches("^[\\s\\n]+$")) {
+
+                //if (isSubordinateClause(thisElement) && isPostModifier(thisElement)) {
+                //    realisation.append(", ");
+                //}
+
 				realisation.append(realisedChild.getRealisation());
+
+                if (isSubordinateClause(thisElement) && isPreOrFrontModifier(thisElement)) {
+                    realisation.append(",");
+                }
 
 				if(components.size() > 1 && i < components.size() - 1) {
 					realisation.append(listSeparator);
@@ -408,6 +418,39 @@ public class OrthographyProcessor extends NLGModule {
 			realisation.setLength(realisation.length() - 1);
 		}
 	}
+
+	private boolean isSubordinateClause(NLGElement element) {
+	    Object clauseStatus = getFeature(element, InternalFeature.CLAUSE_STATUS);
+        return clauseStatus != null && clauseStatus.equals(ClauseStatus.SUBORDINATE);
+    }
+
+    private boolean isPostModifier(NLGElement element) {
+	    Object function = getFeature(element, InternalFeature.DISCOURSE_FUNCTION);
+        return function != null && function.equals(DiscourseFunction.POST_MODIFIER);
+    }
+
+    private boolean isPreOrFrontModifier(NLGElement element) {
+        Object function = getFeature(element, InternalFeature.DISCOURSE_FUNCTION);
+        return function != null &&
+                (function.equals(DiscourseFunction.PRE_MODIFIER) || function.equals(DiscourseFunction.FRONT_MODIFIER));
+    }
+
+    private Object getFeature(NLGElement element, String featureName) {
+        Object featureValue = null;
+        if (element instanceof ListElement) {
+            List<NLGElement> children = element.getChildren();
+            if(!children.isEmpty()) {
+                NLGElement firstChild = children.get(0);
+                featureValue = firstChild.getFeature(featureName);
+            }
+        }
+        else {
+            if (element != null) {
+                featureValue = element.getFeature(featureName);
+            }
+        }
+        return featureValue;
+    }
 
 	/**
 	 * Realises coordinated phrases. Where there are more than two coordinates,
