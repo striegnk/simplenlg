@@ -38,6 +38,7 @@ public class SimpleNLGSandbox {
         SPhraseSpec s2 = nlgFactory.createClause("my dog", "like", "big bones");
         SPhraseSpec s3 = nlgFactory.createClause("my horse", "like", "grass");
 
+        // Look at framework/CoordinatedPhraseElement and at syntax/english/CoordinatedPhraseHelper.
         CoordinatedPhraseElement c = nlgFactory.createCoordinatedPhrase();
         c.addCoordinate(s1);
         c.addCoordinate(s2);
@@ -78,6 +79,7 @@ public class SimpleNLGSandbox {
     }
 
     private void realiseComparativeCorrelative() {
+        /* This doesn't work. I was just playing around to see what does work. */
         AdjPhraseSpec happy = nlgFactory.createAdjectivePhrase("happy");
         happy.setFeature(Feature.IS_COMPARATIVE, true);
         SPhraseSpec main = nlgFactory.createClause("I", "be", happy);
@@ -88,10 +90,16 @@ public class SimpleNLGSandbox {
         SPhraseSpec sub = nlgFactory.createClause("I", "eat", fish);
         sub.addModifier("more often");
 
-        String output1 = realiser.realiseSentence(main);
-        String output2 = realiser.realiseSentence(sub);
-        System.out.println(output1);
-        System.out.println(output2);
+
+        // Instead of creating a CoordinatedPhraseElement create a CorrelativeComparativePhrase (make a new class for that)
+        CoordinatedPhraseElement c = nlgFactory.createCoordinatedPhrase(sub, main);
+        c.setFeature(Feature.CONJUNCTION, ",");
+        // SyntaxProcessor.realise needs a branch to deal with CorrelativeComparativePhrases; and a
+        // CorrelativeComparativeHelper class is needed to re-shuffle the words appropriately.
+        // We also need a way of marking in main and sub what the parallel comparative phrases are that need to get
+        // moved to the front.
+        String output = realiser.realiseSentence(c);
+        System.out.println(output);
     }
 
     public static void main(String[] args) {
