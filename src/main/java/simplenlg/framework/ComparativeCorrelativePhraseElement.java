@@ -19,13 +19,13 @@
 
 package simplenlg.framework;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import simplenlg.features.Feature;
 import simplenlg.features.InternalFeature;
 import simplenlg.features.NumberAgreement;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * <p>
@@ -49,17 +49,17 @@ import simplenlg.features.NumberAgreement;
  * @version 4.0
  * 
  */
-public class CorrelativeComparativePhraseElement extends NLGElement {
+public class ComparativeCorrelativePhraseElement extends NLGElement {
 
 	/** Coordinators which make the coordinate plural (eg, "and" but not "or")*/
 	@SuppressWarnings("nls")
 	private static final List<String> PLURAL_COORDINATORS = Arrays.asList("and");
-	
+
 	/**
 	 * Creates a blank coordinated phrase ready for new coordinates to be added.
 	 * The default conjunction used is <em>and</em>.
 	 */
-	public CorrelativeComparativePhraseElement() {
+	public ComparativeCorrelativePhraseElement() {
 		super();
 		this.setFeature(Feature.CONJUNCTION, "and"); //$NON-NLS-1$
 	}
@@ -67,13 +67,13 @@ public class CorrelativeComparativePhraseElement extends NLGElement {
 	/**
 	 * Creates a coordinated phrase linking the two phrase together. The default
 	 * conjunction used is <em>and</em>.
-	 * 
+	 *
 	 * @param coordinate1
 	 *            the first coordinate.
 	 * @param coordinate2
 	 *            the second coordinate.
 	 */
-	public CorrelativeComparativePhraseElement(Object coordinate1, Object coordinate2) {
+	public ComparativeCorrelativePhraseElement(Object coordinate1, Object coordinate2) {
 
 		this.addCoordinate(coordinate1);
 		this.addCoordinate(coordinate2);
