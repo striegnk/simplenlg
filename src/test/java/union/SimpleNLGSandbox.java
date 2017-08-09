@@ -98,7 +98,7 @@ public class SimpleNLGSandbox {
         // CorrelativeComparativeHelper class is needed to re-shuffle the words appropriately.
         // We also need a way of marking in main and sub what the parallel comparative phrases are that need to get
         // moved to the front.
-        String output = realiser.realiseSentence(c);
+        String output = realiser.realise(c).getRealisation();
         System.out.println(output);
     }
 
