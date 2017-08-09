@@ -117,9 +117,9 @@ public class SyntaxProcessor extends NLGModule {
 				realisedElement = CoordinatedPhraseHelper.realise(this,
 						(CoordinatedPhraseElement) element);
 
-			} else if (element instanceof CorrelativeComparativePhraseElement) {
-				realisedElement = CorrelativeComparativePhraseHelper.realise(this,
-						(CorrelativeComparativePhraseElement) element);
+			} else if (element instanceof ComparativeCorrelativePhraseElement) {
+				realisedElement = ComparativeCorrelativePhraseHelper.realise(this,
+						(ComparativeCorrelativePhraseElement) element);
 			} else {
 				realisedElement = element;
 			}
