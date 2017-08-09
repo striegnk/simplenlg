@@ -24,13 +24,7 @@ import simplenlg.features.DiscourseFunction;
 import simplenlg.features.Feature;
 import simplenlg.features.InternalFeature;
 import simplenlg.features.LexicalFeature;
-import simplenlg.framework.CoordinatedPhraseElement;
-import simplenlg.framework.InflectedWordElement;
-import simplenlg.framework.LexicalCategory;
-import simplenlg.framework.ListElement;
-import simplenlg.framework.NLGElement;
-import simplenlg.framework.PhraseCategory;
-import simplenlg.framework.WordElement;
+import simplenlg.framework.*;
 
 /**
  * <p>
@@ -49,7 +43,7 @@ abstract class CorrelativeComparativePhraseHelper {
 	 * @param parent
 	 *            the <code>SyntaxProcessor</code> that called this method.
 	 * @param phrase
-	 *            the <code>CoordinatedPhrase</code> to be realised.
+	 *            the <code>CorreltiveComparativePhraseElement</code> to be realised.
 	 * @return the realised <code>NLGElement</code>.
 	 */
 	static NLGElement realise(SyntaxProcessor parent,
@@ -61,7 +55,7 @@ abstract class CorrelativeComparativePhraseHelper {
 			PhraseHelper.realiseList(parent, realisedElement, phrase
 					.getPreModifiers(), DiscourseFunction.PRE_MODIFIER);
 
-			CoordinatedPhraseElement coordinated = new CoordinatedPhraseElement();
+			CorrelativeComparativePhraseElement coordinated = new CorrelativeComparativePhraseElement();
 
 			List<NLGElement> children = phrase.getChildren();
 			String conjunction = phrase.getFeatureAsString(Feature.CONJUNCTION);
@@ -131,12 +125,12 @@ abstract class CorrelativeComparativePhraseHelper {
 	 * Sets the common features from the phrase to the child element.
 	 * 
 	 * @param phrase
-	 *            the <code>CoordinatedPhraseElement</code>
+	 *            the <code>CorreltiveComparativePhraseElement</code>
 	 * @param child
 	 *            a single coordinated <code>NLGElement</code> within the
 	 *            coordination.
 	 */
-	private static void setChildFeatures(CoordinatedPhraseElement phrase,
+	private static void setChildFeatures(CorrelativeComparativePhraseElement phrase,
 			NLGElement child) {
 
 		if (phrase.hasFeature(Feature.PROGRESSIVE)) {
