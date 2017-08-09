@@ -49,7 +49,7 @@ public class DataStory01 {
     }
 
     private void realise() {
-        private void sentence1();
+        sentence1();
     }
 
     /**

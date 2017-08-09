@@ -61,7 +61,7 @@ public class DataStory02 {
     }
 
     private void realise() {
-        private void sentence1();
+        sentence1();
     }
 
     /**
