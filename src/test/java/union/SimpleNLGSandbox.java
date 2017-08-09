@@ -92,9 +92,9 @@ public class SimpleNLGSandbox {
         often.setFeature(Feature.IS_COMPARATIVE, true);
         sub.addModifier(often);
 
-        
+
         // Instead of creating a CoordinatedPhraseElement create a CorrelativeComparativePhrase (make a new class for that)
-        CorrelativeComparativePhraseElement c = nlgFactory.createCorrelativeComparativePhrase(sub, main);
+        ComparativeCorrelativePhraseElement c = nlgFactory.createComparativeCorrelativePhrase(sub, main);
 
         c.setFeature(Feature.CONJUNCTION, ",");
         // SyntaxProcessor.realise needs a branch to deal with CorrelativeComparativePhrases; and a
