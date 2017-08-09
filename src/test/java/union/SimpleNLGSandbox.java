@@ -92,7 +92,7 @@ public class SimpleNLGSandbox {
 
 
         // Instead of creating a CoordinatedPhraseElement create a CorrelativeComparativePhrase (make a new class for that)
-        CoordinatedPhraseElement c = nlgFactory.createCoordinatedPhrase(sub, main);
+        CorrelativeComparativePhraseElement c = nlgFactory.createCorrelativeComparativePhrase(sub, main);
         c.setFeature(Feature.CONJUNCTION, ",");
         // SyntaxProcessor.realise needs a branch to deal with CorrelativeComparativePhrases; and a
         // CorrelativeComparativeHelper class is needed to re-shuffle the words appropriately.
