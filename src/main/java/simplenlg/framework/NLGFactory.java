@@ -856,6 +856,29 @@ public class NLGFactory {
 		return new CoordinatedPhraseElement(coord1, coord2);
 	}
 
+	
+	/**
+	 * Creates a new (empty) correlative comparative phrase
+	 *
+	 * @return empty <code>CorrelativeComparativePhraseElement</code>
+	 */
+	public CorrelativeComparativePhraseElement createCorrelativeComparativePhrase(){
+		return new CorrelativeComparativePhraseElement();
+	}
+	
+	/**
+	 * Creates a new correlative compative phrase with two elements (initially)
+	 * 
+	 * @param coord1
+	 * 		- first component of the correlative comparative phrase
+	 * @param coord2 
+	 * 		- second component of the correlative comparative phrase
+	 * @return <code>CorrelativeComparativePhraseElement</code> for the two given elements
+	 */
+	public CorrelativeComparativePhraseElement createCorrelativeComparativePhrase(Object coord1, Object coord2) {
+		return new CorrelativeComparativePhraseElement(coord1, coord2);
+	}
+
 	/***********************************************************************************
 	 * Document level stuff
 	 ***********************************************************************************/
