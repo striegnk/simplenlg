@@ -88,11 +88,14 @@ public class SimpleNLGSandbox {
         //fish.setFeature(Feature.IS_COMPARATIVE, true);
         //fish.setSpecifier("more");
         SPhraseSpec sub = nlgFactory.createClause("I", "eat", fish);
-        sub.addModifier("more often");
+        AdvPhraseSpec often = nlgFactory.createAdverbPhrase("often");
+        often.setFeature(Feature.IS_COMPARATIVE, true);
+        sub.addModifier(often);
 
-
+        
         // Instead of creating a CoordinatedPhraseElement create a CorrelativeComparativePhrase (make a new class for that)
         CorrelativeComparativePhraseElement c = nlgFactory.createCorrelativeComparativePhrase(sub, main);
+
         c.setFeature(Feature.CONJUNCTION, ",");
         // SyntaxProcessor.realise needs a branch to deal with CorrelativeComparativePhrases; and a
         // CorrelativeComparativeHelper class is needed to re-shuffle the words appropriately.
