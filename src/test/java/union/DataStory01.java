@@ -1,13 +1,12 @@
 package union;
 
 import simplenlg.features.Feature;
+import simplenlg.features.Form;
 import simplenlg.features.NumberAgreement;
+import simplenlg.features.Tense;
 import simplenlg.framework.*;
 import simplenlg.lexicon.*;
-import simplenlg.phrasespec.NPPhraseSpec;
-import simplenlg.phrasespec.PPPhraseSpec;
-import simplenlg.phrasespec.SPhraseSpec;
-import simplenlg.phrasespec.VPPhraseSpec;
+import simplenlg.phrasespec.*;
 import simplenlg.realiser.english.*;
 
 import java.awt.datatransfer.FlavorEvent;
@@ -58,6 +57,7 @@ public class DataStory01 {
 
     private void realise() {
         sentence1();
+        sentence2();
     }
 
     /**
@@ -79,6 +79,10 @@ public class DataStory01 {
         car.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
         car.setFeature(Feature.POSSESSIVE, true);
         fuelEco.setSpecifier(car);
+//        It would be ideal if we could use a noun phrase for this part,
+//        however the FrontModifier "such as" does not get realized.
+//        fuelEco.setFrontModifier("such as");
+//        fuelEco.setFeature(Feature.APPOSITIVE, true);
         SPhraseSpec s1 = nlgFactory.createClause();
         s1.setFrontModifier("such as");
         s1.setObject(fuelEco);
@@ -110,7 +114,7 @@ public class DataStory01 {
         SPhraseSpec s4 = nlgFactory.createClause();
         s4.setSubject(obj4);
 
-        CoordinatedPhraseElement object = nlgFactory.createCoordinatedPhrase(s1, s2);
+        CoordinatedPhraseElement object = nlgFactory.createCoordinatedPhrase(fuelEco, s2);
         object.addCoordinate(s3);
         object.addCoordinate(s4);
 
@@ -122,11 +126,59 @@ public class DataStory01 {
         String output = realiser.realiseSentence(sentence);
         System.out.println(output);
 
-
-
     }
 
-    public static void main(String[] args) {
+    /**
+     * This graph shows that more fuel efficient cars (cars with a higher gas mileage, shown in red) tend
+     * to take longer to accelerate from 0 to 60 mph.
+     */
+    private void sentence2() {
+        VPPhraseSpec verb1 = nlgFactory.createVerbPhrase("show");
+        VPPhraseSpec verb2 = nlgFactory.createVerbPhrase("tend");
+        VPPhraseSpec verb3 = nlgFactory.createVerbPhrase("take");
+        verb3.setFeature(Feature.FORM, Form.INFINITIVE);
+        VPPhraseSpec verb4 = nlgFactory.createVerbPhrase("accelerate");
+        verb4.setFeature(Feature.FORM, Form.INFINITIVE);
+        VPPhraseSpec verb5 = nlgFactory.createVerbPhrase("show");
+
+        NPPhraseSpec sub1 = nlgFactory.createNounPhrase("this", "graph");
+        NPPhraseSpec sub2 = nlgFactory.createNounPhrase("more fuel efficient", "car");
+        sub2.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+
+        NPPhraseSpec cars = nlgFactory.createNounPhrase("cars with a higher gas mileage");
+        AdvPhraseSpec shown = nlgFactory.createAdverbPhrase("shown in red");
+        shown.setFeature(Feature.APPOSITIVE, true);
+        cars.setPostModifier(shown);
+        cars.setFeature(Feature.APPOSITIVE, true);
+
+        sub2.setPostModifier(cars);
+
+        AdjPhraseSpec adj1 = nlgFactory.createAdjectivePhrase("long");
+        adj1.setFeature(Feature.IS_COMPARATIVE, true);
+        adj1.setPostModifier(verb4);
+
+        PPPhraseSpec prep1 = nlgFactory.createPrepositionPhrase("from 0 to 60 mph");
+        verb4.setPostModifier(prep1);
+
+        verb3.setPostModifier(adj1);
+
+        SPhraseSpec s1 = nlgFactory.createClause();
+        s1.setSubject(sub1);
+        s1.setVerb(verb1);
+
+        SPhraseSpec s2 = nlgFactory.createClause();
+        s2.setSubject(sub2);
+        s2.setVerb(verb2);
+        verb2.setPostModifier(verb3);
+
+        s1.addComplement(s2);
+
+        String output = realiser.realiseSentence(s1);
+        System.out.println(output);
+    }
+
+
+        public static void main(String[] args) {
         DataStory01 story = new DataStory01();
         story.realise();
     }
