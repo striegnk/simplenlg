@@ -1,15 +1,11 @@
 package union;
 
-import simplenlg.features.Feature;
-import simplenlg.features.Form;
-import simplenlg.features.NumberAgreement;
-import simplenlg.features.Tense;
+import gov.nih.nlm.nls.lvg.Util.Str;
+import simplenlg.features.*;
 import simplenlg.framework.*;
 import simplenlg.lexicon.*;
 import simplenlg.phrasespec.*;
 import simplenlg.realiser.english.*;
-
-import java.awt.datatransfer.FlavorEvent;
 
 /**
  * The story:
@@ -58,6 +54,15 @@ public class DataStory01 {
     private void realise() {
         sentence1();
         sentence2();
+        sentence3();
+        sentence4();
+        sentence5();
+        sentence6();
+        sentence7();
+        sentence8();
+        sentence9();
+        sentence10();
+        sentence11();
     }
 
     /**
@@ -139,12 +144,13 @@ public class DataStory01 {
         verb3.setFeature(Feature.FORM, Form.INFINITIVE);
         VPPhraseSpec verb4 = nlgFactory.createVerbPhrase("accelerate");
         verb4.setFeature(Feature.FORM, Form.INFINITIVE);
-        VPPhraseSpec verb5 = nlgFactory.createVerbPhrase("show");
 
         NPPhraseSpec sub1 = nlgFactory.createNounPhrase("this", "graph");
         NPPhraseSpec sub2 = nlgFactory.createNounPhrase("more fuel efficient", "car");
         sub2.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
 
+        // We are using commas instead of brackets here
+        // The APPOSITIVE feature could probably be later altered so as to provide an option to add brackets
         NPPhraseSpec cars = nlgFactory.createNounPhrase("cars with a higher gas mileage");
         AdvPhraseSpec shown = nlgFactory.createAdverbPhrase("shown in red");
         shown.setFeature(Feature.APPOSITIVE, true);
@@ -177,6 +183,255 @@ public class DataStory01 {
         System.out.println(output);
     }
 
+    /**
+     * Ideally, we want cars that have a good fuel economy (i.e. can travel more miles per gallon of gas) and at the same
+     * time can accelerate quickly (i.e. need fewer seconds to get from 0 to 60 mph).
+     */
+    private void sentence3(){
+        WordElement sub1 = (WordElement) nlgFactory.createWord("we", LexicalCategory.PRONOUN);
+        VPPhraseSpec verb1 = nlgFactory.createVerbPhrase("want");
+        NPPhraseSpec obj1 = nlgFactory.createNounPhrase("car");
+        obj1.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+
+        VPPhraseSpec subClause1 = nlgFactory.createVerbPhrase("have a good fuel economy");
+//        subClause1.setFeature(Feature.PERSON, Person.THIRD);
+        subClause1.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+//        subClause1.setPostModifier("a good fuel economy");
+
+        //(i.e. can travel more miles per gallon of gas)
+        SPhraseSpec descp1 = nlgFactory.createClause("i.e.", "can",  "travel more miles per gallon of gas");
+        descp1.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+        descp1.setFeature(Feature.APPOSITIVE, true);
+        subClause1.setPostModifier(descp1);
+
+        PPPhraseSpec subClause2 = nlgFactory.createPrepositionPhrase("can accelerate quickly");
+//        subClause2.setFeature(Feature.PERSON, Person.THIRD);
+        subClause2.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+//        subClause2.addPostModifier("accelerate quickly");
+
+        //(i.e. need fewer seconds to get from 0 to 60 mph)
+        SPhraseSpec descp2 = nlgFactory.createClause("i.e.", "need", "fewer seconds to get from 0 to 60 mph");
+        descp2.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+        descp2.setFeature(Feature.APPOSITIVE, true);
+        subClause2.addPostModifier(descp2);
+
+
+        CoordinatedPhraseElement subClause = nlgFactory.createCoordinatedPhrase(subClause1, subClause2);
+        subClause.setConjunction("and at the same time");
+
+        SPhraseSpec s1 = nlgFactory.createClause();
+        s1.setIndirectObject(subClause);
+//        s1.setFeature(Feature.COMPLEMENTISER, "that");
+
+        SPhraseSpec sentence = nlgFactory.createClause();
+        sentence.setSubject(sub1);
+        sentence.setVerb(verb1);
+        sentence.setObject(obj1);
+        sentence.setFrontModifier("ideally");
+
+        sentence.addComplement(s1);
+
+        realiser.setCommaSepCuephrase(true);
+        String output = realiser.realiseSentence(sentence);
+        System.out.println(output);
+
+    }
+
+    /**
+     * Cars that satisfy both constraints are shown in purple.
+     */
+    private void sentence4(){
+        SPhraseSpec satisfy = nlgFactory.createClause();
+        satisfy.setVerb("satisfy");
+        satisfy.setObject("both constraints");
+
+        satisfy.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+        VPPhraseSpec show = nlgFactory.createVerbPhrase("show");
+        PPPhraseSpec inPurple = nlgFactory.createPrepositionPhrase("in", "purple");
+        show.addModifier(inPurple);
+//        show.setFeature(Feature.PASSIVE, true);
+        NPPhraseSpec car = nlgFactory.createNounPhrase("car");
+        car.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+        car.addComplement(satisfy);
+
+        SPhraseSpec s1 = nlgFactory.createClause();
+        s1.setVerbPhrase(show);
+        s1.setObject(car);
+        s1.setFeature(Feature.PASSIVE, true);
+
+        String output = realiser.realiseSentence(s1);
+        System.out.println(output);
+
+    }
+
+    /**
+     * Let's explore what type of engineering decision influences a car's fuel efficiency and acceleration.
+     */
+    private void sentence5(){
+        VPPhraseSpec explore = nlgFactory.createVerbPhrase("explore");
+        explore.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+        NPPhraseSpec type = nlgFactory.createNounPhrase("what type of engineering decision");
+        VPPhraseSpec influence = nlgFactory.createVerbPhrase("influence");
+        NPPhraseSpec car = nlgFactory.createNounPhrase("a", "car");
+        car.setFeature(Feature.POSSESSIVE, true);
+        NPPhraseSpec fuelEff = nlgFactory.createNounPhrase("fuel efficiency");
+        fuelEff.setSpecifier(car);
+        NPPhraseSpec acc = nlgFactory.createNounPhrase("acceleration");
+        CoordinatedPhraseElement obj = nlgFactory.createCoordinatedPhrase(fuelEff, acc);
+
+        SPhraseSpec s2 = nlgFactory.createClause();
+        s2.setSubject(type);
+        s2.setVerbPhrase(influence);
+        s2.setObject(obj);
+
+        SPhraseSpec s1 = nlgFactory.createClause();
+        s1.setSubject("Let's");
+        s1.setVerbPhrase(explore);
+        s1.addPostModifier(s2);
+
+        String output = realiser.realiseSentence(s1);
+        System.out.println(output);
+
+    }
+
+    /**
+     * Fuel efficiency can somewhat be improved by decreasing a car's weight.
+     */
+    private void sentence6(){
+//        VPPhraseSpec decrease = nlgFactory.createVerbPhrase("decrease");
+//        decrease.addPostModifier("a car's weight");
+//        decrease.setFeature(Feature.FORM, Form.GERUND);
+//        NPPhraseSpec decreasing = nlgFactory.createNounPhrase(decrease);
+        NPPhraseSpec decreasing = nlgFactory.createNounPhrase("decreasing a car's weight");
+        VPPhraseSpec improve = nlgFactory.createVerbPhrase("improve");
+        improve.setFeature(Feature.MODAL, "can somewhat");
+        NPPhraseSpec fuelEff = nlgFactory.createNounPhrase("fuel efficiency");
+
+        SPhraseSpec s1 = nlgFactory.createClause();
+        s1.setSubject(decreasing);
+        s1.setVerbPhrase(improve);
+        s1.setObject(fuelEff);
+        s1.setFeature(Feature.PASSIVE, true);
+
+        String output = realiser.realiseSentence(s1);
+        System.out.println(output);
+
+    }
+
+    /**
+     * This can be achieved by decreasing its engine's displacement, which is a result of decreasing the number of
+     * cylinders.
+     */
+    private void sentence7() {
+//        WordElement _this = (WordElement) nlgFactory.createWord("this", LexicalCategory.PRONOUN);
+        NPPhraseSpec _this = nlgFactory.createNounPhrase("this");
+        NPPhraseSpec decreasing = nlgFactory.createNounPhrase("decreasing its engine's displacement");
+        VPPhraseSpec achieve = nlgFactory.createVerbPhrase("achieve");
+        achieve.setFeature(Feature.MODAL, "can");
+
+        SPhraseSpec s2 = nlgFactory.createClause("which", "be",
+                "a result of decreasing the number of cylinders");
+        // I am using a comma as the complementiser in this example for subordinate clause.
+        // There must probably be a better way to do it
+        s2.setFeature(Feature.COMPLEMENTISER, ",");
+        decreasing.addComplement(s2);
+
+        SPhraseSpec s1 = nlgFactory.createClause();
+        s1.setSubject(decreasing);
+        s1.setVerbPhrase(achieve);
+        s1.setObject(_this);
+
+        s1.setFeature(Feature.PASSIVE, true);
+        String output = realiser.realiseSentence(s1);
+        System.out.println(output);
+    }
+
+    /**
+     * For example, the Volkswagen Scirocco has few cylinders, low engine displacement, low weight, and a good fuel
+     * efficiency.
+     */
+    private void sentence8(){
+        NPPhraseSpec volkswagen = nlgFactory.createNounPhrase("the", "Volkswagen Scirocco");
+        VPPhraseSpec have = nlgFactory.createVerbPhrase("have");
+        CoordinatedPhraseElement objects = nlgFactory.createCoordinatedPhrase("few cylinders",
+                "low engine displacement");
+        objects.addCoordinate("low weight");
+        objects.addCoordinate("good fuel efficiency");
+
+        SPhraseSpec s1 = nlgFactory.createClause();
+        s1.setSubject(volkswagen);
+        s1.setVerbPhrase(have);
+        s1.setObject(objects);
+        s1.addFrontModifier("for example");
+
+        realiser.setCommaSepCuephrase(true);
+        String output = realiser.realiseSentence(s1);
+        System.out.println(output);
+    }
+
+    /**
+     * [...]
+     */
+    private void sentence9(){
+        DocumentElement sentence = nlgFactory.createSentence("[...]");
+
+        String output = realiser.realiseSentence(sentence);
+        System.out.println(output);
+
+    }
+
+    /**
+     * To sum up, this analysis suggests that there are two ways to improve acceleration: we can increase a car's power or
+     * decrease its weight.
+     */
+    private void sentence10(){
+        SPhraseSpec s1, s2, s3;
+        s2 = nlgFactory.createClause("there", "be");
+        NPPhraseSpec obj = nlgFactory.createNounPhrase("two ways to improve acceleration");
+        obj.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+
+        s3 = nlgFactory.createClause("we", "can", "increase a car's power");
+        VPPhraseSpec s4 = nlgFactory.createVerbPhrase("decrease its weight");
+
+        CoordinatedPhraseElement s5 = nlgFactory.createCoordinatedPhrase(s3, s4);
+        s5.setConjunction("or");
+        s5.setFeature(Feature.COMPLEMENTISER, ":");
+
+        s1 = nlgFactory.createClause("this analysis", "suggest");
+        s1.addFrontModifier("to sum up");
+        realiser.setCommaSepCuephrase(true);
+
+        s2.addComplement(s5);
+        s1.addComplement(s2);
+
+        String output = realiser.realiseSentence(s1);
+        System.out.println(output);
+
+    }
+
+    /**
+     * However, only decreasing its weight, will also improve the car's fuel efficiency.
+     */
+    private void sentence11(){
+        PPPhraseSpec subj = nlgFactory.createPrepositionPhrase("only", "decreasing its weight");
+        subj.setFeature(Feature.APPOSITIVE, true);
+
+        VPPhraseSpec obj1 = nlgFactory.createVerbPhrase("improve the car's fuel efficiency");
+        obj1.setFeature(Feature.TENSE, Tense.FUTURE);
+
+        // I could not manage to generate the "also" in between "will" and "improve" in the sentence.
+        CoordinatedPhraseElement s2 = nlgFactory.createCoordinatedPhrase(subj, obj1);
+        s2.setFeature(Feature.CONJUNCTION, "also");
+
+        SPhraseSpec s1 = nlgFactory.createClause();
+        s1.setFrontModifier("however");
+        s1.setSubject(s2);
+
+        realiser.setCommaSepCuephrase(true);
+        String output = realiser.realiseSentence(s1);
+        System.out.println(output);
+
+    }
 
         public static void main(String[] args) {
         DataStory01 story = new DataStory01();
