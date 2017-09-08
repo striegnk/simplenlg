@@ -285,7 +285,7 @@ public class DataStory01 {
         s2.setObject(obj);
 
         SPhraseSpec s1 = nlgFactory.createClause();
-        s1.setSubject("Let's");
+        s1.setSubject("let's");
         s1.setVerbPhrase(explore);
         s1.addPostModifier(s2);
 
