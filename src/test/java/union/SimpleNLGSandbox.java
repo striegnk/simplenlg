@@ -16,6 +16,7 @@ public class SimpleNLGSandbox {
         lexicon = Lexicon.getDefaultLexicon();
         nlgFactory = new NLGFactory(lexicon);
         realiser = new Realiser(lexicon);
+        realiser.setDebugMode(true);
     }
 
     private void realiseString() {
@@ -67,15 +68,26 @@ public class SimpleNLGSandbox {
 
         sub.setFeature(Feature.COMPLEMENTISER, "if");
         sub.setFeature(InternalFeature.CLAUSE_STATUS, ClauseStatus.SUBORDINATE);
+        //main.addFrontModifier("generally");
         main.addFrontModifier(sub); // --> If I eat fish I am happy.
         //main.addModifier(sub); // I am happy if I eat fish.
-        main.addFrontModifier("generally");
-        // Todo: order in which front/post modifiers are added determines order in realisation.
+        // Note: order in which front/post modifiers are added determines order in realisation.
         // Todo: With front modifiers, commas are messed up.
-
 
         String output4 = realiser.realiseSentence(main);
         System.out.println(output4);
+    }
+
+    private void realiseComparativeAdjectives() {
+        NPPhraseSpec bear = nlgFactory.createNounPhrase("the", "bear");
+        AdjPhraseSpec big = nlgFactory.createAdjectivePhrase("big");
+        big.setFeature(Feature.IS_COMPARATIVE, true);
+        AdjPhraseSpec dangerous = nlgFactory.createAdjectivePhrase("dangerous");
+        dangerous.setFeature(Feature.IS_COMPARATIVE, true);
+        SPhraseSpec main = nlgFactory.createClause(bear, "be", dangerous);
+
+        String output = realiser.realiseSentence(main);
+        System.out.println(output);
     }
 
     private void realiseComparativeCorrelative() {
@@ -111,6 +123,7 @@ public class SimpleNLGSandbox {
         //sandbox.realiseCoordinatedSentence();
         //sandbox.realiseSubordinatedSentenceAsComplement();
         //sandbox.realiseSubordinatedSentenceAsModifier();
-        sandbox.realiseComparativeCorrelative();
+        sandbox.realiseComparativeAdjectives();
+        //sandbox.realiseComparativeCorrelative();
     }
 }
