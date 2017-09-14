@@ -16,7 +16,7 @@ public class SimpleNLGSandbox {
         lexicon = Lexicon.getDefaultLexicon();
         nlgFactory = new NLGFactory(lexicon);
         realiser = new Realiser(lexicon);
-        realiser.setDebugMode(true);
+        //realiser.setDebugMode(true);
     }
 
     private void realiseString() {
@@ -84,6 +84,7 @@ public class SimpleNLGSandbox {
         big.setFeature(Feature.IS_COMPARATIVE, true);
         AdjPhraseSpec dangerous = nlgFactory.createAdjectivePhrase("dangerous");
         dangerous.setFeature(Feature.IS_COMPARATIVE, true);
+        //SPhraseSpec main = nlgFactory.createClause(bear, "be", big);
         SPhraseSpec main = nlgFactory.createClause(bear, "be", dangerous);
 
         String output = realiser.realiseSentence(main);

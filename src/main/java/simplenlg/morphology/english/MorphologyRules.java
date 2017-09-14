@@ -596,7 +596,10 @@ public abstract class MorphologyRules extends NLGModule {
 				realised = baseWord.getFeatureAsString(LexicalFeature.COMPARATIVE);
 			}
 			if(realised == null) {
-				if(Inflection.REGULAR_DOUBLE.equals(patternValue)) {
+                if (hasThreeOrMoreSyllables(baseForm)) {
+                    realised = "more " + baseForm;
+                }
+				else if(Inflection.REGULAR_DOUBLE.equals(patternValue)) {
 					realised = buildDoubleCompAdjective(baseForm);
 				} else {
 					realised = buildRegularComparative(baseForm);
@@ -610,7 +613,11 @@ public abstract class MorphologyRules extends NLGModule {
 				realised = baseWord.getFeatureAsString(LexicalFeature.SUPERLATIVE);
 			}
 			if(realised == null) {
-				if(Inflection.REGULAR_DOUBLE.equals(patternValue)) {
+                if (hasThreeOrMoreSyllables(baseForm)) {
+                    realised = "most " + baseForm;
+                }
+                else
+                if(Inflection.REGULAR_DOUBLE.equals(patternValue)) {
 					realised = buildDoubleSuperAdjective(baseForm);
 				} else {
 					realised = buildRegularSuperlative(baseForm);
@@ -624,6 +631,12 @@ public abstract class MorphologyRules extends NLGModule {
 		                           element.getFeature(InternalFeature.DISCOURSE_FUNCTION));
 		return realisedElement;
 	}
+
+    private static boolean hasThreeOrMoreSyllables(String baseForm) {
+	    // pattern: C*V+C+V+(C+V+)+C*
+	    String pattern = "[^aeiouy]*[aeiouy]+[^aeiouy]+[aeiouy]+([^aeiouy]+[aeiouy]+)+[^aeiouy]*";
+        return (baseForm.matches(pattern));
+    }
 
 	/**
 	 * Builds the comparative form for adjectives that follow the doubling form
