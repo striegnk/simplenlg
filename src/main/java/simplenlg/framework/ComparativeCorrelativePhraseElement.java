@@ -19,6 +19,7 @@
 
 package simplenlg.framework;
 
+import simplenlg.features.ClauseStatus;
 import simplenlg.features.Feature;
 import simplenlg.features.InternalFeature;
 import simplenlg.features.NumberAgreement;
@@ -62,6 +63,10 @@ public class ComparativeCorrelativePhraseElement extends NLGElement {
 	public ComparativeCorrelativePhraseElement() {
 		super();
 		this.setFeature(Feature.CONJUNCTION, "and"); //$NON-NLS-1$
+
+		this.setFeature(InternalFeature.CLAUSE_STATUS, ClauseStatus.COMPARATIVE_CORRELATIVE);
+
+
 	}
 
 	/**
@@ -73,11 +78,15 @@ public class ComparativeCorrelativePhraseElement extends NLGElement {
 	 * @param coordinate2
 	 *            the second coordinate.
 	 */
-	public ComparativeCorrelativePhraseElement(Object coordinate1, Object coordinate2) {
+	public ComparativeCorrelativePhraseElement(PhraseElement coordinate1, PhraseElement coordinate2) {
 
 		this.addCoordinate(coordinate1);
 		this.addCoordinate(coordinate2);
 		this.setFeature(Feature.CONJUNCTION, "and"); //$NON-NLS-1$
+
+		coordinate1.setFeature(InternalFeature.CLAUSE_STATUS, ClauseStatus.COMPARATIVE_CORRELATIVE);
+		coordinate2.setFeature(InternalFeature.CLAUSE_STATUS, ClauseStatus.COMPARATIVE_CORRELATIVE);
+
 	}
 
 	/**

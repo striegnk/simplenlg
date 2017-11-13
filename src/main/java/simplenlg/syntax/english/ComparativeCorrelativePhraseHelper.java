@@ -18,10 +18,7 @@
  */
 package simplenlg.syntax.english;
 
-import simplenlg.features.DiscourseFunction;
-import simplenlg.features.Feature;
-import simplenlg.features.InternalFeature;
-import simplenlg.features.LexicalFeature;
+import simplenlg.features.*;
 import simplenlg.framework.*;
 
 import java.util.List;
@@ -243,4 +240,5 @@ abstract class ComparativeCorrelativePhraseHelper {
 			}
 		}
 	}
+
 }

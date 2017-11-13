@@ -875,7 +875,7 @@ public class NLGFactory {
 	 * 		- second component of the correlative comparative phrase
 	 * @return <code>CorrelativeComparativePhraseElement</code> for the two given elements
 	 */
-	public ComparativeCorrelativePhraseElement createComparativeCorrelativePhrase(Object coord1, Object coord2) {
+	public ComparativeCorrelativePhraseElement createComparativeCorrelativePhrase(PhraseElement coord1, PhraseElement coord2) {
 		return new ComparativeCorrelativePhraseElement(coord1, coord2);
 	}
 
