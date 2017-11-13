@@ -22,13 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
 
-import simplenlg.features.DiscourseFunction;
-import simplenlg.features.Feature;
-import simplenlg.features.Form;
-import simplenlg.features.InternalFeature;
-import simplenlg.features.InterrogativeType;
-import simplenlg.features.NumberAgreement;
-import simplenlg.features.Tense;
+import simplenlg.features.*;
 import simplenlg.framework.CoordinatedPhraseElement;
 import simplenlg.framework.InflectedWordElement;
 import simplenlg.framework.LexicalCategory;
@@ -99,7 +93,19 @@ abstract class VerbPhraseHelper {
 				realiseMainVerb(parent, phrase, mainVerbRealisation,
 						realisedElement);
 			}
+
+			/*
+			*	I am trying to do the following verification before realizing the complements
+			*	But	it seems that the phrase that is being passed in the VerbPhraseHelper, which
+			*	the verbElement from ClauseHelper in my opinion, does not have COMPARATIVE_CORRELATIVE
+			*	as its InternalFeature.
+			*/
+//			if(!ClauseStatus.COMPARATIVE_CORRELATIVE.equals(phrase.getFeature(InternalFeature.CLAUSE_STATUS))){
+//				realiseComplements(parent, phrase, realisedElement);
+//			}
+
 			realiseComplements(parent, phrase, realisedElement);
+
 			PhraseHelper.realiseList(parent, realisedElement, phrase
 					.getPostModifiers(), DiscourseFunction.POST_MODIFIER);
 		}
@@ -177,7 +183,7 @@ abstract class VerbPhraseHelper {
 	 * @param realisedElement
 	 *            the current realisation of the noun phrase.
 	 */
-	private static void realiseComplements(SyntaxProcessor parent,
+	public static void realiseComplements(SyntaxProcessor parent,
 			PhraseElement phrase, ListElement realisedElement) {
 
 		ListElement indirects = new ListElement();
