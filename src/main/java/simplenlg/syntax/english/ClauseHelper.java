@@ -29,13 +29,7 @@ import simplenlg.features.InterrogativeType;
 import simplenlg.features.NumberAgreement;
 import simplenlg.features.Person;
 import simplenlg.features.Tense;
-import simplenlg.framework.CoordinatedPhraseElement;
-import simplenlg.framework.LexicalCategory;
-import simplenlg.framework.ListElement;
-import simplenlg.framework.NLGElement;
-import simplenlg.framework.NLGFactory;
-import simplenlg.framework.PhraseCategory;
-import simplenlg.framework.PhraseElement;
+import simplenlg.framework.*;
 import simplenlg.phrasespec.SPhraseSpec;
 import simplenlg.phrasespec.VPPhraseSpec;
 
@@ -93,6 +87,15 @@ abstract class ClauseHelper {
 				                         realisedElement,
 				                         phrase.getFeatureAsElementList(InternalFeature.FRONT_MODIFIERS),
 				                         DiscourseFunction.FRONT_MODIFIER);
+			}
+
+			if(ClauseStatus.COMPARATIVE_CORRELATIVE.equals(phrase.getFeature(InternalFeature.CLAUSE_STATUS))){
+				//realise "the" and add it to the realisedElement
+				System.out.println("Recognized the from ClauseHelper class, line 94");
+				realisedElement.addComponent(new InflectedWordElement(
+						"the", LexicalCategory.CONJUNCTION)); //$NON-NLS-1$
+				VerbPhraseHelper.realiseComplements(parent, (VPPhraseSpec)verbElement, realisedElement);
+
 			}
 
 			addSubjectsToFront(phrase, parent, realisedElement, splitVerb);
