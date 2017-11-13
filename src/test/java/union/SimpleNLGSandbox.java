@@ -105,13 +105,43 @@ public class SimpleNLGSandbox {
         System.out.println(output);
     }
 
+    private void testingSimpleSentenceRealization(){
+        /* Testing to see how this sentence gets realized with the ClauseHelper class and other Helper classes */
+
+        NPPhraseSpec fish = nlgFactory.createNounPhrase("fish");
+        fish.setSpecifier("the");
+        VPPhraseSpec be = nlgFactory.createVerbPhrase("be");
+        AdjPhraseSpec big = nlgFactory.createAdjectivePhrase("big");
+        big.setFeature(Feature.IS_COMPARATIVE, true);
+        SPhraseSpec s1 = nlgFactory.createClause();
+        s1.setSubject(fish);
+        s1.setVerbPhrase(be);
+        s1.setObject(big);
+
+        NPPhraseSpec fisherman = nlgFactory.createNounPhrase("fisherman");
+        fisherman.setSpecifier("the");
+        VPPhraseSpec be1 = nlgFactory.createVerbPhrase("be");
+        AdjPhraseSpec happy = nlgFactory.createAdjectivePhrase("happy");
+        happy.setFeature(Feature.IS_COMPARATIVE, true);
+        SPhraseSpec s2 = nlgFactory.createClause();
+        s2.setSubject(fisherman);
+        s2.setVerbPhrase(be1);
+        s2.setObject(happy);
+
+        ComparativeCorrelativePhraseElement t1 = new ComparativeCorrelativePhraseElement(s1, s2);
+        t1.setConjunction(",");
+        String output = realiser.realiseSentence(t1);
+        System.out.println(output);
+    }
+
     public static void main(String[] args) {
         SimpleNLGSandbox sandbox = new SimpleNLGSandbox();
         //sandbox.realiseString();
         //sandbox.realiseSimpleSentence();
         //sandbox.realiseCoordinatedSentence();
         //sandbox.realiseSubordinatedSentenceAsComplement();
-        //sandbox.realiseSubordinatedSentenceAsModifier();
-        sandbox.realiseComparativeCorrelative();
+//        sandbox.realiseSubordinatedSentenceAsModifier();
+        //sandbox.realiseComparativeCorrelative();
+        sandbox.testingSimpleSentenceRealization();
     }
 }
