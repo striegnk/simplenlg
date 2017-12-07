@@ -233,6 +233,7 @@ public class Realiser extends NLGModule {
 		this.syntax.setLexicon(newLexicon);
 		this.morphology.setLexicon(newLexicon);
 		this.orthography.setLexicon(newLexicon);
+		super.setLexicon(newLexicon);
 	}
 
 	public void setFormatter(NLGModule formatter) {

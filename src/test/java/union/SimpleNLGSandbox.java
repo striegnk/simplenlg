@@ -117,6 +117,13 @@ public class SimpleNLGSandbox {
         System.out.println(output);
     }
 
+    private void testLexicons() {
+        System.out.println(lexicon);
+        System.out.println(realiser.getLexicon());
+        WordElement noun = realiser.getLexicon().lookupWord("calm", LexicalCategory.NOUN);
+        System.out.println(noun.getFeature(LexicalFeature.DEFAULT_INFL));
+    }
+
     public static void main(String[] args) {
         SimpleNLGSandbox sandbox = new SimpleNLGSandbox();
         //sandbox.realiseString();
@@ -124,7 +131,8 @@ public class SimpleNLGSandbox {
         //sandbox.realiseCoordinatedSentence();
         //sandbox.realiseSubordinatedSentenceAsComplement();
         //sandbox.realiseSubordinatedSentenceAsModifier();
-        sandbox.realiseComparativeAdjectives();
+        //sandbox.realiseComparativeAdjectives();
         //sandbox.realiseComparativeCorrelative();
+        sandbox.testLexicons();
     }
 }
