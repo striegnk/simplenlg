@@ -94,7 +94,10 @@ abstract class ClauseHelper {
 				System.out.println("Recognized the from ClauseHelper class, line 94");
 				realisedElement.addComponent(new InflectedWordElement(
 						"the", LexicalCategory.CONJUNCTION)); //$NON-NLS-1$
+//				VPPhraseSpec foundVerbElement = phrase.getFeature();
 				VerbPhraseHelper.realiseComplements(parent, (VPPhraseSpec)verbElement, realisedElement);
+
+				((VPPhraseSpec)verbElement).getFeaturesAsElementList(InternalFeature.COMPLEMENTS);
 
 			}
 
