@@ -94,10 +94,23 @@ abstract class ClauseHelper {
 				System.out.println("Recognized the from ClauseHelper class, line 94");
 				realisedElement.addComponent(new InflectedWordElement(
 						"the", LexicalCategory.CONJUNCTION)); //$NON-NLS-1$
-//				VPPhraseSpec foundVerbElement = phrase.getFeature();
-				VerbPhraseHelper.realiseComplements(parent, (VPPhraseSpec)verbElement, realisedElement);
 
-				((VPPhraseSpec)verbElement).getFeaturesAsElementList(InternalFeature.COMPLEMENTS);
+//				I am realizing all of the complements here. I should be realizing only one of them.
+//				VerbPhraseHelper.realiseComplements(parent, (VPPhraseSpec)verbElement, realisedElement);
+
+				List<NLGElement> complementsList = ((VPPhraseSpec)verbElement).getFeatureAsElementList(InternalFeature.COMPLEMENTS);
+				for(NLGElement eachComplement: complementsList){
+					System.out.println("Recognized the from ClauseHelper class, line 103");
+					System.out.println(eachComplement.getFeature(Feature.IS_COMPARATIVE));
+					System.out.println(Feature.IS_COMPARATIVE);
+
+					if((Boolean)eachComplement.getFeature(Feature.IS_COMPARATIVE)){				// Do I really need to cast this? Is there a better way?
+						//We need to realise the verb(s) here
+						realisedElement.addComponent(parent.realise(eachComplement));
+						System.out.println("Recognized the from ClauseHelper class, line 108");
+
+					}
+				}
 
 			}
 
