@@ -117,6 +117,14 @@ public class SimpleNLGSandbox {
         System.out.println(output);
     }
 
+    private void realiseSimple() {
+        AdjPhraseSpec happy = nlgFactory.createAdjectivePhrase("happy");
+        happy.setFeature(Feature.IS_COMPARATIVE, true);
+        SPhraseSpec main = nlgFactory.createClause("I", "be", happy);
+        String output = realiser.realiseSentence(main);
+        System.out.println(output);
+    }
+
     public static void main(String[] args) {
         SimpleNLGSandbox sandbox = new SimpleNLGSandbox();
         //sandbox.realiseString();
@@ -124,7 +132,8 @@ public class SimpleNLGSandbox {
         //sandbox.realiseCoordinatedSentence();
         //sandbox.realiseSubordinatedSentenceAsComplement();
         //sandbox.realiseSubordinatedSentenceAsModifier();
-        sandbox.realiseComparativeAdjectives();
+        //sandbox.realiseComparativeAdjectives();
         //sandbox.realiseComparativeCorrelative();
+        sandbox.realiseSimple();
     }
 }
