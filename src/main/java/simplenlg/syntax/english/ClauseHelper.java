@@ -104,7 +104,7 @@ abstract class ClauseHelper {
 					System.out.println(eachComplement.getFeature(Feature.IS_COMPARATIVE));
 					System.out.println(Feature.IS_COMPARATIVE);
 
-					if((Boolean)eachComplement.getFeature(Feature.IS_COMPARATIVE)){				// Do I really need to cast this? Is there a better way?
+					if(eachComplement.getFeatureAsBoolean(Feature.IS_COMPARATIVE)){
 						//We need to realise the verb(s) here
 						realisedElement.addComponent(parent.realise(eachComplement));
 						System.out.println("Recognized the from ClauseHelper class, line 108");
