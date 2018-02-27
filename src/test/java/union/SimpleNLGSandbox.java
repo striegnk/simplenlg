@@ -134,6 +134,31 @@ public class SimpleNLGSandbox {
         System.out.println(output);
     }
 
+    private void testingSimpleInterogation(){
+
+        NPPhraseSpec john = nlgFactory.createNounPhrase("John");
+        VPPhraseSpec eat = nlgFactory.createVerbPhrase("eat");
+        NPPhraseSpec fish = nlgFactory.createNounPhrase("fish");
+        eat.setFeature(Feature.TENSE, Tense.PAST);
+//        SPhraseSpec s1 = nlgFactory.createClause();
+//        s1.setSubject(john);
+//        s1.setVerbPhrase(eat);
+//        s1.setObject(fish);
+
+        SPhraseSpec s2 = nlgFactory.createClause();
+        s2.setSubject(john);
+        s2.setVerbPhrase(eat);
+        s2.setObject(fish);
+
+        s2.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHAT_OBJECT);
+
+//        String output1 = realiser.realiseSentence(s1);
+//        System.out.println(output1);
+
+        String output2 = realiser.realiseSentence(s2);
+        System.out.println(output2);
+    }
+
     public static void main(String[] args) {
         SimpleNLGSandbox sandbox = new SimpleNLGSandbox();
         //sandbox.realiseString();
@@ -143,5 +168,6 @@ public class SimpleNLGSandbox {
 //        sandbox.realiseSubordinatedSentenceAsModifier();
         //sandbox.realiseComparativeCorrelative();
         sandbox.testingSimpleSentenceRealization();
+//        sandbox.testingSimpleInterogation();
     }
 }

@@ -91,7 +91,6 @@ abstract class ClauseHelper {
 
 			if(ClauseStatus.COMPARATIVE_CORRELATIVE.equals(phrase.getFeature(InternalFeature.CLAUSE_STATUS))){
 				//realise "the" and add it to the realisedElement
-				System.out.println("Recognized the from ClauseHelper class, line 94");
 				realisedElement.addComponent(new InflectedWordElement(
 						"the", LexicalCategory.CONJUNCTION)); //$NON-NLS-1$
 
@@ -100,14 +99,10 @@ abstract class ClauseHelper {
 
 				List<NLGElement> complementsList = ((VPPhraseSpec)verbElement).getFeatureAsElementList(InternalFeature.COMPLEMENTS);
 				for(NLGElement eachComplement: complementsList){
-					System.out.println("Recognized the from ClauseHelper class, line 103");
-					System.out.println(eachComplement.getFeature(Feature.IS_COMPARATIVE));
-					System.out.println(Feature.IS_COMPARATIVE);
 
 					if(eachComplement.getFeatureAsBoolean(Feature.IS_COMPARATIVE)){
 						//We need to realise the verb(s) here
 						realisedElement.addComponent(parent.realise(eachComplement));
-						System.out.println("Recognized the from ClauseHelper class, line 108");
 
 					}
 				}
