@@ -125,6 +125,22 @@ public class SimpleNLGSandbox {
         System.out.println(output);
     }
 
+    private void realiseInterrogativeObject() {
+        NPPhraseSpec john = nlgFactory.createNounPhrase("John");
+        NPPhraseSpec cake = nlgFactory.createNounPhrase("cake");
+        SPhraseSpec s = nlgFactory.createClause(john, "eat", cake);
+        s.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHAT_OBJECT);
+        String output = realiser.realiseSentence(s);
+        System.out.println(output);
+    }
+
+    private void testLexicons() {
+        System.out.println(lexicon);
+        System.out.println(realiser.getLexicon());
+        WordElement noun = realiser.getLexicon().lookupWord("calm", LexicalCategory.NOUN);
+        System.out.println(noun.getFeature(LexicalFeature.DEFAULT_INFL));
+    }
+
     public static void main(String[] args) {
         SimpleNLGSandbox sandbox = new SimpleNLGSandbox();
         //sandbox.realiseString();
@@ -134,6 +150,9 @@ public class SimpleNLGSandbox {
         //sandbox.realiseSubordinatedSentenceAsModifier();
         //sandbox.realiseComparativeAdjectives();
         //sandbox.realiseComparativeCorrelative();
-        sandbox.realiseSimple();
+        //sandbox.realiseSimple();
+        //sandbox.testLexicons();
+        sandbox.realiseInterrogativeObject();
+
     }
 }
