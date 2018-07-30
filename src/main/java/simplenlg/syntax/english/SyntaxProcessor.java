@@ -22,7 +22,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import simplenlg.features.Feature;
-import simplenlg.framework.*;
+import simplenlg.framework.ComparativeCorrelativePhraseElement;
+import simplenlg.framework.CoordinatedPhraseElement;
+import simplenlg.framework.DocumentElement;
+import simplenlg.framework.ElementCategory;
+import simplenlg.framework.InflectedWordElement;
+import simplenlg.framework.LexicalCategory;
+import simplenlg.framework.ListElement;
+import simplenlg.framework.NLGElement;
+import simplenlg.framework.NLGModule;
+import simplenlg.framework.PhraseCategory;
+import simplenlg.framework.PhraseElement;
+import simplenlg.framework.WordElement;
 
 /**
  * <p>

@@ -29,7 +29,14 @@ import simplenlg.features.InterrogativeType;
 import simplenlg.features.NumberAgreement;
 import simplenlg.features.Person;
 import simplenlg.features.Tense;
-import simplenlg.framework.*;
+import simplenlg.framework.CoordinatedPhraseElement;
+import simplenlg.framework.InflectedWordElement;
+import simplenlg.framework.LexicalCategory;
+import simplenlg.framework.ListElement;
+import simplenlg.framework.NLGElement;
+import simplenlg.framework.NLGFactory;
+import simplenlg.framework.PhraseCategory;
+import simplenlg.framework.PhraseElement;
 import simplenlg.phrasespec.SPhraseSpec;
 import simplenlg.phrasespec.VPPhraseSpec;
 
