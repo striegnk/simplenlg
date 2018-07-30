@@ -63,5 +63,11 @@ public enum ClauseStatus {
 	/**
 	 * The subordinate clauses are contained within a higher clause.
 	 */
-	SUBORDINATE;
+	SUBORDINATE,
+
+	/**
+	 * This enumeration represents a comparative correlative type phrase, which
+	 * is neither a matrix nor a subordinate clause.
+	 */
+	COMPARATIVE_CORRELATIVE;
 }

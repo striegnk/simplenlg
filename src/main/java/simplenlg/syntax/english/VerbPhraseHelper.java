@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
 
+import simplenlg.features.ClauseStatus;
 import simplenlg.features.DiscourseFunction;
 import simplenlg.features.Feature;
 import simplenlg.features.Form;
@@ -99,7 +100,9 @@ abstract class VerbPhraseHelper {
 				realiseMainVerb(parent, phrase, mainVerbRealisation,
 						realisedElement);
 			}
+
 			realiseComplements(parent, phrase, realisedElement);
+
 			PhraseHelper.realiseList(parent, realisedElement, phrase
 					.getPostModifiers(), DiscourseFunction.POST_MODIFIER);
 		}
@@ -177,7 +180,7 @@ abstract class VerbPhraseHelper {
 	 * @param realisedElement
 	 *            the current realisation of the noun phrase.
 	 */
-	private static void realiseComplements(SyntaxProcessor parent,
+	public static void realiseComplements(SyntaxProcessor parent,
 			PhraseElement phrase, ListElement realisedElement) {
 
 		ListElement indirects = new ListElement();
@@ -186,36 +189,42 @@ abstract class VerbPhraseHelper {
 		Object discourseValue = null;
 		NLGElement currentElement = null;
 
-		for (NLGElement complement : phrase
-				.getFeatureAsElementList(InternalFeature.COMPLEMENTS)) {
+		if(!ClauseStatus.COMPARATIVE_CORRELATIVE.equals(phrase.getFeature(InternalFeature.CLAUSE_STATUS))) { 
+			for (NLGElement complement : phrase
+					.getFeatureAsElementList(InternalFeature.COMPLEMENTS)) {
+				discourseValue = complement
+						.getFeature(InternalFeature.DISCOURSE_FUNCTION);
+				if(!complement.getFeatureAsBoolean(Feature.IS_COMPARATIVE)) {
+					currentElement = parent.realise(complement);
+				}
 
-			discourseValue = complement
-					.getFeature(InternalFeature.DISCOURSE_FUNCTION);
-			currentElement = parent.realise(complement);
-			if (currentElement != null) {
-				currentElement.setFeature(InternalFeature.DISCOURSE_FUNCTION,
-						DiscourseFunction.COMPLEMENT);
+				if (currentElement != null) {
+					currentElement.setFeature(InternalFeature.DISCOURSE_FUNCTION,
+							DiscourseFunction.COMPLEMENT);
 
-				if (DiscourseFunction.INDIRECT_OBJECT.equals(discourseValue)) {
-					indirects.addComponent(currentElement);
-				} else if (DiscourseFunction.OBJECT.equals(discourseValue)) {
-					directs.addComponent(currentElement);
-				} else {
-					unknowns.addComponent(currentElement);
+					if (DiscourseFunction.INDIRECT_OBJECT.equals(discourseValue)) {
+						indirects.addComponent(currentElement);
+					} else if (DiscourseFunction.OBJECT.equals(discourseValue)) {
+						directs.addComponent(currentElement);
+					} else {
+						unknowns.addComponent(currentElement);
+					}
 				}
 			}
-		}
-		if (!InterrogativeType.isIndirectObject(phrase
-				.getFeature(Feature.INTERROGATIVE_TYPE))) {
-			realisedElement.addComponents(indirects.getChildren());
-		}
-		if (!phrase.getFeatureAsBoolean(Feature.PASSIVE).booleanValue()) {
-			if (!InterrogativeType.isObject(phrase
+
+			if (!InterrogativeType.isIndirectObject(phrase
 					.getFeature(Feature.INTERROGATIVE_TYPE))) {
-				realisedElement.addComponents(directs.getChildren());
+				realisedElement.addComponents(indirects.getChildren());
 			}
-			realisedElement.addComponents(unknowns.getChildren());
+			if (!phrase.getFeatureAsBoolean(Feature.PASSIVE).booleanValue()) {
+				if (!InterrogativeType.isObject(phrase
+						.getFeature(Feature.INTERROGATIVE_TYPE))) {
+					realisedElement.addComponents(directs.getChildren());
+				}
+				realisedElement.addComponents(unknowns.getChildren());
+			}
 		}
+
 	}
 
 	/**

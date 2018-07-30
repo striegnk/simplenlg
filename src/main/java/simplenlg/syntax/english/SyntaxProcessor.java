@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import simplenlg.features.Feature;
+import simplenlg.framework.ComparativeCorrelativePhraseElement;
 import simplenlg.framework.CoordinatedPhraseElement;
 import simplenlg.framework.DocumentElement;
 import simplenlg.framework.ElementCategory;
@@ -127,6 +128,9 @@ public class SyntaxProcessor extends NLGModule {
 				realisedElement = CoordinatedPhraseHelper.realise(this,
 						(CoordinatedPhraseElement) element);
 
+			} else if (element instanceof ComparativeCorrelativePhraseElement) {
+				realisedElement = ComparativeCorrelativePhraseHelper.realise(this,
+						(ComparativeCorrelativePhraseElement) element);
 			} else {
 				realisedElement = element;
 			}

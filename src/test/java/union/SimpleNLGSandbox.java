@@ -106,14 +106,44 @@ public class SimpleNLGSandbox {
         sub.addModifier(often);
 
 
-        // Instead of creating a CoordinatedPhraseElement create a CorrelativeComparativePhrase (make a new class for that in framework)
-        CoordinatedPhraseElement c = nlgFactory.createCoordinatedPhrase(sub, main);
+        // Instead of creating a CoordinatedPhraseElement create a CorrelativeComparativePhrase (make a new class for that)
+        ComparativeCorrelativePhraseElement c = nlgFactory.createComparativeCorrelativePhrase(sub, main);
+
         c.setFeature(Feature.CONJUNCTION, ",");
         // SyntaxProcessor.realise needs a branch to deal with CorrelativeComparativePhrases; and a
         // CorrelativeComparativeHelper class is needed to re-shuffle the words appropriately.
         // We also need a way of marking in main and sub what the parallel comparative phrases are that need to get
         // moved to the front.
-        String output = realiser.realiseSentence(c);
+        String output = realiser.realise(c).getRealisation();
+        System.out.println(output);
+    }
+
+    private void testingSimpleSentenceRealization(){
+        /* Testing to see how this sentence gets realized with the ClauseHelper class and other Helper classes */
+
+        NPPhraseSpec fish = nlgFactory.createNounPhrase("fish");
+        fish.setSpecifier("the");
+        VPPhraseSpec be = nlgFactory.createVerbPhrase("be");
+        AdjPhraseSpec big = nlgFactory.createAdjectivePhrase("big");
+        big.setFeature(Feature.IS_COMPARATIVE, true);
+        SPhraseSpec s1 = nlgFactory.createClause();
+        s1.setSubject(fish);
+        s1.setVerbPhrase(be);
+        s1.setObject(big);
+
+        NPPhraseSpec fisherman = nlgFactory.createNounPhrase("fisherman");
+        fisherman.setSpecifier("the");
+        VPPhraseSpec be1 = nlgFactory.createVerbPhrase("be");
+        AdjPhraseSpec happy = nlgFactory.createAdjectivePhrase("happy");
+        happy.setFeature(Feature.IS_COMPARATIVE, true);
+        SPhraseSpec s2 = nlgFactory.createClause();
+        s2.setSubject(fisherman);
+        s2.setVerbPhrase(be1);
+        s2.setObject(happy);
+
+        ComparativeCorrelativePhraseElement t1 = new ComparativeCorrelativePhraseElement(s1, s2);
+        t1.setConjunction(",");
+        String output = realiser.realiseSentence(t1);
         System.out.println(output);
     }
 
@@ -141,6 +171,32 @@ public class SimpleNLGSandbox {
         System.out.println(noun.getFeature(LexicalFeature.DEFAULT_INFL));
     }
 
+    private void testingSimpleInterogation() {
+
+        NPPhraseSpec john = nlgFactory.createNounPhrase("John");
+        VPPhraseSpec eat = nlgFactory.createVerbPhrase("eat");
+        NPPhraseSpec fish = nlgFactory.createNounPhrase("fish");
+        eat.setFeature(Feature.TENSE, Tense.PAST);
+//        SPhraseSpec s1 = nlgFactory.createClause();
+//        s1.setSubject(john);
+//        s1.setVerbPhrase(eat);
+//        s1.setObject(fish);
+
+        SPhraseSpec s2 = nlgFactory.createClause();
+        s2.setSubject(john);
+        s2.setVerbPhrase(eat);
+        s2.setObject(fish);
+
+        s2.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHAT_OBJECT);
+
+//        String output1 = realiser.realiseSentence(s1);
+//        System.out.println(output1);
+
+        String output2 = realiser.realiseSentence(s2);
+        System.out.println(output2);
+    }
+
+
     public static void main(String[] args) {
         SimpleNLGSandbox sandbox = new SimpleNLGSandbox();
         //sandbox.realiseString();
@@ -152,7 +208,8 @@ public class SimpleNLGSandbox {
         //sandbox.realiseComparativeCorrelative();
         //sandbox.realiseSimple();
         //sandbox.testLexicons();
-        sandbox.realiseInterrogativeObject();
-
+        //sandbox.realiseInterrogativeObject();
+        sandbox.testingSimpleSentenceRealization();
+//        sandbox.testingSimpleInterogation();
     }
 }

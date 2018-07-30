@@ -30,6 +30,7 @@ import simplenlg.features.NumberAgreement;
 import simplenlg.features.Person;
 import simplenlg.features.Tense;
 import simplenlg.framework.CoordinatedPhraseElement;
+import simplenlg.framework.InflectedWordElement;
 import simplenlg.framework.LexicalCategory;
 import simplenlg.framework.ListElement;
 import simplenlg.framework.NLGElement;
@@ -93,6 +94,26 @@ abstract class ClauseHelper {
 				                         realisedElement,
 				                         phrase.getFeatureAsElementList(InternalFeature.FRONT_MODIFIERS),
 				                         DiscourseFunction.FRONT_MODIFIER);
+			}
+
+			if(ClauseStatus.COMPARATIVE_CORRELATIVE.equals(phrase.getFeature(InternalFeature.CLAUSE_STATUS))){
+				//realise "the" and add it to the realisedElement
+				realisedElement.addComponent(new InflectedWordElement(
+						"the", LexicalCategory.CONJUNCTION)); //$NON-NLS-1$
+
+//				I am realizing all of the complements here. I should be realizing only one of them.
+//				VerbPhraseHelper.realiseComplements(parent, (VPPhraseSpec)verbElement, realisedElement);
+
+				List<NLGElement> complementsList = ((VPPhraseSpec)verbElement).getFeatureAsElementList(InternalFeature.COMPLEMENTS);
+				for(NLGElement eachComplement: complementsList){
+
+					if(eachComplement.getFeatureAsBoolean(Feature.IS_COMPARATIVE)){
+						//We need to realise the verb(s) here
+						realisedElement.addComponent(parent.realise(eachComplement));
+
+					}
+				}
+
 			}
 
 			addSubjectsToFront(phrase, parent, realisedElement, splitVerb);
